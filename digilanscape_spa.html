@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigasi Digital Indonesia 2026</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <!-- 
+    <!-- Chosen Palette: Neon Nightscape (Slate 900 Background, Cyan 400 Primary, Pink 500 & Emerald 400 Accents) -->
+    <!-- Application Structure Plan: The application uses a narrative-driven, vertical-scrolling dashboard structure with a sticky navigation bar. This guides the user through a logical funnel: 1. Macro Demographics -> 2. Platform Adoption -> 3. Micro Generational Behavior -> 4. Content Consumption -> 5. AI Synthesis. This linear flow prevents cognitive overload while embedding AI tools directly within relevant sections (e.g., Campaign Planner next to Cohort Data) for immediate actionable insights. -->
+    <!-- Visualization & Content Choices:
+        - Demographics (Inform/Compare): Doughnut Charts. Shows exact part-to-whole proportions of Age and Gender. Chart.js (Canvas).
+        - Ecosystem Pareto (Organize): Horizontal Bar Chart. Best for ranking items with longer labels. Chart.js (Canvas).
+        - Generational Cohorts (Compare): Grouped Bar Chart. Allows cross-comparison of multiple platforms against discrete age groups. Chart.js (Canvas).
+        - Content Affinity (Relationships): Radar Chart. Effectively displays multivariate scoring across diverse entertainment genres. Chart.js (Canvas).
+        - Podcast Dynamics (Relationships): Bubble Chart. Maps 3 dimensions (Growth, Retention, Market Size) simultaneously. Chart.js (Canvas).
+        - KPI Cards (Inform): Large styled HTML text. Immediate numerical impact. HTML/CSS.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    -->
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0F172A; /* Slate 900 */
+            color: #F8FAFC; /* Slate 50 */
+        }
+        
+        /* Strict Chart Container Styling */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+
+        /* UI Elements */
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7); /* Slate 800 */
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(56, 189, 248, 0.2); /* Cyan 400 */
+        }
+
+        .spinner {
+            border: 3px solid rgba(34, 211, 238, 0.2);
+            border-radius: 50%;
+            border-top: 3px solid #22D3EE;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0F172A; }
+        ::-webkit-scrollbar-thumb { background: #38BDF8; border-radius: 4px; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Sticky Navigation -->
+    <nav class="sticky top-0 z-50 glass-card border-b border-cyan-500/30 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl">⚡</span>
+                    <span class="font-extrabold text-xl tracking-tight text-white">IDN<span class="text-cyan-400">Pulse</span></span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="flex items-baseline space-x-6 text-sm font-semibold">
+                        <a href="#demografi" class="text-slate-300 hover:text-cyan-400 transition">Demografi</a>
+                        <a href="#platform" class="text-slate-300 hover:text-cyan-400 transition">Lanskap Platform</a>
+                        <a href="#konten" class="text-slate-300 hover:text-cyan-400 transition">Tren Konten</a>
+                        <a href="#ai-lab" class="bg-cyan-500/20 text-cyan-400 px-3 py-1 rounded-full border border-cyan-500/50 hover:bg-cyan-500/30 transition">✨ Tanya AI</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative pt-20 pb-16 px-4 overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-800 via-slate-900 to-slate-900 -z-10"></div>
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6 leading-tight">
+                Peta Navigasi <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-pink-500">Ekosistem Digital</span> Indonesia
+            </h1>
+            <p class="text-lg md:text-xl text-slate-400 mb-10 leading-relaxed">
+                Membongkar kekuatan "Bonus Demografi". Laporan analitik interaktif mengenai perilaku pengguna, dominasi platform, dan pergeseran selera konten yang divalidasi oleh kecerdasan buatan.
+            </p>
+            
+            <!-- Global KPIs -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+                <div class="glass-card p-6 rounded-2xl shadow-xl hover:-translate-y-1 transition-transform">
+                    <div class="text-3xl mb-2">👥</div>
+                    <p class="text-xs font-bold text-cyan-400 uppercase tracking-wider mb-1">Total Populasi</p>
+                    <p class="text-4xl font-extrabold text-white">278.7<span class="text-lg text-slate-400 ml-1">Juta</span></p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl shadow-xl hover:-translate-y-1 transition-transform">
+                    <div class="text-3xl mb-2">🔥</div>
+                    <p class="text-xs font-bold text-pink-400 uppercase tracking-wider mb-1">Usia Produktif (15-64)</p>
+                    <p class="text-4xl font-extrabold text-white">71.0<span class="text-lg text-slate-400 ml-1">%</span></p>
+                </div>
+                <div class="glass-card p-6 rounded-2xl shadow-xl hover:-translate-y-1 transition-transform">
+                    <div class="text-3xl mb-2">🏙️</div>
+                    <p class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-1">Tingkat Urbanisasi</p>
+                    <p class="text-4xl font-extrabold text-white">57.9<span class="text-lg text-slate-400 ml-1">%</span></p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-24">
+
+        <!-- SECTION 1: Demography -->
+        <section id="demografi" class="scroll-mt-24">
+            <div class="mb-10">
+                <h2 class="text-3xl font-extrabold text-white mb-4 flex items-center gap-3">
+                    <span class="bg-cyan-500/20 text-cyan-400 p-2 rounded-lg text-xl">1</span>
+                    Anatomi Demografi Nasional
+                </h2>
+                <p class="text-slate-400 max-w-3xl leading-relaxed text-lg">
+                    Rasio ketergantungan yang sangat rendah menandakan tingginya daya beli dan konsumsi digital. Populasi didominasi mutlak oleh kelompok pekerja dan pelajar aktif dengan sebaran gender yang nyaris seimbang.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="glass-card p-8 rounded-3xl">
+                    <h3 class="text-lg font-bold text-center text-white mb-2">Struktur Usia Populasi</h3>
+                    <p class="text-xs text-center text-slate-400 mb-6">Dominasi Usia Produktif menciptakan "Bonus Demografi".</p>
+                    <div class="chart-container">
+                        <canvas id="ageChart"></canvas>
+                    </div>
+                </div>
+                <div class="glass-card p-8 rounded-3xl">
+                    <h3 class="text-lg font-bold text-center text-white mb-2">Komposisi Gender</h3>
+                    <p class="text-xs text-center text-slate-400 mb-6">Distribusi pasar yang seimbang memengaruhi strategi penargetan.</p>
+                    <div class="chart-container">
+                        <canvas id="genderChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: Platform Pareto -->
+        <section id="platform" class="scroll-mt-24">
+            <div class="mb-10">
+                <h2 class="text-3xl font-extrabold text-white mb-4 flex items-center gap-3">
+                    <span class="bg-pink-500/20 text-pink-400 p-2 rounded-lg text-xl">2</span>
+                    Hukum Pareto Ekosistem Digital
+                </h2>
+                <p class="text-slate-400 max-w-3xl leading-relaxed text-lg">
+                    Dari ratusan sarana digital, perhatian terpusat pada segelintir raksasa. WhatsApp dan YouTube berfungsi sebagai utilitas dasar yang melampaui sekadar "media sosial".
+                </p>
+            </div>
+
+            <div class="glass-card p-8 rounded-3xl mb-12">
+                <h3 class="text-xl font-bold text-white mb-2">Penetrasi Aplikasi Utama (%)</h3>
+                <p class="text-sm text-slate-400 mb-8">Pangsa pasar di kalangan usia produktif Indonesia.</p>
+                <div class="chart-container md:h-[400px] max-w-none">
+                    <canvas id="paretoChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Cohorts & AI Planner -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-8 glass-card p-8 rounded-3xl">
+                    <h3 class="text-xl font-bold text-white mb-2">Afinitas Lintas Generasi</h3>
+                    <p class="text-sm text-slate-400 mb-8">Perbedaan mencolok perilaku Gen Z, Milenial, dan Gen X.</p>
+                    <div class="chart-container md:h-[400px] max-w-none">
+                        <canvas id="cohortChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- AI Campaign Planner -->
+                <div class="lg:col-span-4 bg-gradient-to-b from-slate-800 to-slate-900 border border-pink-500/40 p-8 rounded-3xl shadow-2xl flex flex-col relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 text-6xl">🤖</div>
+                    <h3 class="text-xl font-bold text-white mb-3 flex items-center gap-2 relative z-10">
+                        <span>🎯</span> AI Campaign Strategist
+                    </h3>
+                    <p class="text-slate-400 text-sm mb-6 relative z-10">
+                        Pilih kelompok usia dan biarkan AI merancang taktik distribusi konten berdasarkan data afinitas di samping.
+                    </p>
+                    
+                    <div class="space-y-4 flex-grow relative z-10">
+                        <select id="cohortSelect" class="w-full px-4 py-3 bg-slate-950 text-white border border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 text-sm">
+                            <option value="Generasi Z (15-24 tahun)">Gen Z (15-24 Tahun)</option>
+                            <option value="Milenial (25-40 tahun)">Milenial (25-40 Tahun)</option>
+                            <option value="Generasi X (41-64 tahun)">Gen X (41-64 Tahun)</option>
+                        </select>
+                        <button onclick="generateStrategy()" class="w-full bg-pink-500 hover:bg-pink-400 text-white font-bold py-3 rounded-xl transition-all shadow-[0_0_15px_rgba(236,72,153,0.4)]">
+                            ✨ Hasilkan Strategi
+                        </button>
+                        
+                        <div id="strategyOutput" class="hidden mt-4 bg-slate-950/50 rounded-xl p-5 border border-slate-700">
+                            <div id="strategyLoading" class="hidden flex justify-center py-4">
+                                <div class="spinner"></div>
+                            </div>
+                            <div id="strategyText" class="text-sm text-slate-200 leading-relaxed whitespace-pre-wrap"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: Content & Audio -->
+        <section id="konten" class="scroll-mt-24">
+            <div class="mb-10">
+                <h2 class="text-3xl font-extrabold text-white mb-4 flex items-center gap-3">
+                    <span class="bg-emerald-500/20 text-emerald-400 p-2 rounded-lg text-xl">3</span>
+                    Paradigma Konten & Lanskap Audio-Visual
+                </h2>
+                <p class="text-slate-400 max-w-3xl leading-relaxed text-lg">
+                    Preferensi hiburan sangat menentukan daya lekat (stickiness) audiens. Format Vodcast panjang sedang mengambil alih dominasi radio/podcast tradisional.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <div class="glass-card p-8 rounded-3xl">
+                    <h3 class="text-xl font-bold text-white mb-2 text-center">Peta Minat Berdasarkan Genre</h3>
+                    <p class="text-sm text-slate-400 text-center mb-6">Indeks ketertarikan (Skala 0-100).</p>
+                    <div class="chart-container">
+                        <canvas id="radarChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="glass-card p-8 rounded-3xl flex flex-col justify-center space-y-6 border-emerald-500/30">
+                    <div class="flex gap-4 p-4 bg-slate-800/50 rounded-2xl border border-slate-700">
+                        <div class="text-4xl">😂</div>
+                        <div>
+                            <h4 class="font-bold text-emerald-400 text-lg mb-1">Sketsa Komedi Universal</h4>
+                            <p class="text-sm text-slate-300">Skor tertinggi (90). Pelarian stres utama yang menjangkau seluruh lapisan kohort tanpa batasan.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 p-4 bg-slate-800/50 rounded-2xl border border-slate-700">
+                        <div class="text-4xl">👻</div>
+                        <div>
+                            <h4 class="font-bold text-pink-400 text-lg mb-1">Anomali Horor Lokal</h4>
+                            <p class="text-sm text-slate-300">Mencatat metrik retensi (watch-time) terlama. Fenomena unik penceritaan mistis di pasar Indonesia.</p>
+                        </div>
+                    </div>
+                    <div class="p-5 border-l-4 border-cyan-500 bg-cyan-500/10 rounded-r-2xl">
+                        <h4 class="font-bold text-white mb-1">Rasio Vodcast vs Audio (3:1)</h4>
+                        <p class="text-sm text-slate-300">Produktivitas multitasking memicu ledakan konsumsi Video Podcast di YouTube dibandingkan Spotify/Audio-only.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card p-8 rounded-3xl">
+                <h3 class="text-xl font-bold text-white mb-2">Dinamika Pasar Podcast / Vodcast</h3>
+                <p class="text-sm text-slate-400 mb-8">Pemetaan antara Pertumbuhan (Sumbu X), Tingkat Retensi (Sumbu Y), dan Ukuran Audiens (Radius).</p>
+                <div class="chart-container md:h-[400px] max-w-none">
+                    <canvas id="bubbleChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Global AI Assistant -->
+        <section id="ai-lab" class="scroll-mt-24">
+            <div class="bg-gradient-to-r from-slate-800 to-slate-900 border border-cyan-500/40 rounded-3xl p-8 md:p-12 shadow-2xl ai-glow">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-3xl font-extrabold text-white mb-4 flex items-center gap-3">
+                        <span class="text-4xl">🧠</span> Asisten Data Digital (Gemini AI)
+                    </h2>
+                    <p class="text-slate-400 text-lg mb-8">
+                        Punya pertanyaan seputar data dalam infografis ini? Tanyakan langsung untuk mendapatkan sintesis dan penjelasan mendalam.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <input type="text" id="aiQuery" placeholder="Contoh: Mengapa YouTube lebih disukai Milenial daripada TikTok?" class="flex-grow px-5 py-4 bg-slate-950 border border-slate-700 rounded-2xl focus:outline-none focus:border-cyan-500 text-white placeholder-slate-500 text-lg">
+                        <button onclick="askAI()" class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-extrabold py-4 px-8 rounded-2xl transition-colors shadow-lg whitespace-nowrap text-lg">
+                            ✨ Analisis
+                        </button>
+                    </div>
+
+                    <div id="aiResponseArea" class="hidden mt-8 bg-slate-950 rounded-2xl p-6 border border-slate-700 relative">
+                        <div id="aiGlobalLoading" class="hidden flex items-center gap-3 py-4">
+                            <div class="spinner"></div>
+                            <span class="text-cyan-400 font-semibold">Mensintesis data laporan...</span>
+                        </div>
+                        <div id="aiGlobalText" class="text-slate-300 leading-relaxed text-lg whitespace-pre-wrap"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-950 py-12 border-t border-slate-800 text-center mt-20">
+        <div class="max-w-4xl mx-auto px-4">
+            <p class="text-slate-400 font-bold mb-2">Indonesia Digital Pulse 2026</p>
+            <p class="text-slate-600 text-sm">Visualisasi dirancang khusus tanpa aset grafis eksternal. Diperkuat oleh Gemini AI.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- Configuration & Utilities ---
+        const apiKey = ""; // Dibiarkan kosong, akan diinjeksi oleh environment
+        const modelName = "gemini-2.5-flash-preview-09-2025";
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
+
+        // Global Data Context to ground the AI answers
+        const reportContext = `
+            KONTEKS LAPORAN DEMOGRAFI DIGITAL INDONESIA:
+            - Populasi: 278.7 Juta jiwa.
+            - Usia Produktif (15-64 tahun): 71.0%. Ini disebut Bonus Demografi.
+            - Usia Median: 29.7 tahun. Urbanisasi: 57.9%.
+            - Gender: Laki-laki 50.5%, Perempuan 49.5%.
+            - Penetrasi Platform Ekosistem Digital: WhatsApp (89%), YouTube (85%), Facebook (78%), Instagram (72%), TikTok (65%), X/Twitter (45%), LinkedIn (20%).
+            - Dominasi Kohort: Gen Z (Tinggi di TikTok & YouTube), Milenial (Tinggi di Instagram & YouTube), Gen X (Tinggi di Facebook & WhatsApp).
+            - Afinitas Konten (Skor 0-100): Komedi (90), Horor/Misteri (85), Lifestyle (80), Gaming (70), Berita (60), Edukasi (55).
+            - Tren Podcast/Vodcast: Rasio Vodcast (Video) dibanding Audio murni adalah 3:1. Genre podcast top: Horor (35%), Komedi (30%), Bisnis (20%). Horor memiliki tingkat retensi paling tinggi.
+        `;
+
+        // Text wrapper for Chart.js labels (>16 chars)
+        const wrapChartLabel = (label) => {
+            if (label.length <= 16) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if ((currentLine + " " + words[i]).length <= 16) {
+                    currentLine += " " + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        };
+
+        // Universal Custom Tooltip to handle multiline labels natively
+        const customTooltipPlugin = {
+            tooltip: {
+                backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                titleColor: '#38BDF8',
+                bodyColor: '#F8FAFC',
+                borderColor: '#334155',
+                borderWidth: 1,
+                padding: 12,
+                callbacks: {
+                    title: function(tooltipItems) {
+                        const item = tooltipItems[0];
+                        let label = item.chart.data.labels[item.dataIndex];
+                        if (Array.isArray(label)) {
+                            return label.join(' ');
+                        }
+                        return label;
+                    }
+                }
+            }
+        };
+
+        // --- AI API Call Wrapper with Exponential Backoff ---
+        async function fetchGeminiData(promptText, systemInstruction) {
+            const payload = {
+                contents: [{ parts: [{ text: promptText }] }],
+                systemInstruction: { parts: [{ text: systemInstruction }] }
+            };
+
+            let delay = 1000;
+            const maxRetries = 5;
+
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP Error: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    return data.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, tidak ada respons yang dihasilkan.";
+
+                } catch (error) {
+                    if (i === maxRetries - 1) {
+                        return "Terjadi kesalahan sistem saat menghubungi AI. Silakan coba beberapa saat lagi.";
+                    }
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    delay *= 2; // Exponential backoff
+                }
+            }
+        }
+
+        // --- Feature 1: AI Campaign Strategist ---
+        async function generateStrategy() {
+            const target = document.getElementById('cohortSelect').value;
+            const outputArea = document.getElementById('strategyOutput');
+            const loading = document.getElementById('strategyLoading');
+            const textDisplay = document.getElementById('strategyText');
+
+            outputArea.classList.remove('hidden');
+            loading.classList.remove('hidden');
+            textDisplay.innerHTML = '';
+
+            const sysPrompt = "Anda adalah pakar Digital Marketing Manager di Indonesia. Berikan instruksi taktis yang singkat, kreatif, dan *to-the-point*. Gunakan format poin-poin.";
+            const userPrompt = `Berdasarkan data berikut:\n${reportContext}\n\nBuatkan 3 pilar strategi kampanye pemasaran konten untuk audiens: ${target}. Pastikan strategi tersebut merekomendasikan platform yang tepat dan format/genre konten yang paling relevan dengan mereka.`;
+
+            const result = await fetchGeminiData(userPrompt, sysPrompt);
+            
+            loading.classList.add('hidden');
+            textDisplay.innerHTML = result;
+        }
+
+        // --- Feature 2: Global AI Assistant ---
+        async function askAI() {
+            const query = document.getElementById('aiQuery').value;
+            if (!query.trim()) return;
+
+            const outputArea = document.getElementById('aiResponseArea');
+            const loading = document.getElementById('aiGlobalLoading');
+            const textDisplay = document.getElementById('aiGlobalText');
+
+            outputArea.classList.remove('hidden');
+            loading.classList.remove('hidden');
+            textDisplay.innerHTML = '';
+
+            const sysPrompt = "Anda adalah Asisten Analis Data yang cerdas, profesional, namun ramah. Analisis pertanyaan pengguna berdasarkan data Laporan Digital Indonesia yang diberikan. Berikan jawaban yang terstruktur dan mudah dipahami.";
+            const userPrompt = `Konteks Laporan:\n${reportContext}\n\nPertanyaan Pengguna: ${query}\n\nBerikan analisis ringkas berdasarkan data di atas.`;
+
+            const result = await fetchGeminiData(userPrompt, sysPrompt);
+            
+            loading.classList.add('hidden');
+            textDisplay.innerHTML = result;
+        }
+
+        // --- Chart.js Initializations ---
+        function initCharts() {
+            Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
+            Chart.defaults.color = '#94A3B8'; /* Slate 400 */
+            Chart.defaults.maintainAspectRatio = false;
+            
+            const baseOptions = {
+                plugins: customTooltipPlugin
+            };
+
+            // 1. Age Chart (Doughnut)
+            new Chart(document.getElementById('ageChart').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Usia Produktif (15-64 Tahun)', 'Usia Anak (0-14 Tahun)', 'Usia Lanjut (65+ Tahun)'].map(wrapChartLabel),
+                    datasets: [{
+                        data: [71.0, 23.5, 5.5],
+                        backgroundColor: ['#22D3EE', '#F472B6', '#334155'], // Cyan, Pink, Slate
+                        borderWidth: 0,
+                        hoverOffset: 8
+                    }]
+                },
+                options: {
+                    ...baseOptions,
+                    cutout: '70%',
+                    plugins: { ...baseOptions.plugins, legend: { position: 'bottom', labels: { color: '#E2E8F0' } } }
+                }
+            });
+
+            // 2. Gender Chart (Doughnut)
+            new Chart(document.getElementById('genderChart').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Populasi Pria Aktif', 'Populasi Wanita Aktif'].map(wrapChartLabel),
+                    datasets: [{
+                        data: [50.5, 49.5],
+                        backgroundColor: ['#34D399', '#818CF8'], // Emerald, Indigo
+                        borderWidth: 0,
+                        hoverOffset: 8
+                    }]
+                },
+                options: {
+                    ...baseOptions,
+                    cutout: '70%',
+                    plugins: { ...baseOptions.plugins, legend: { position: 'bottom', labels: { color: '#E2E8F0' } } }
+                }
+            });
+
+            // 3. Pareto Platforms (Horizontal Bar)
+            new Chart(document.getElementById('paretoChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['WhatsApp Messenger', 'YouTube Network', 'Facebook Social', 'Instagram Visuals', 'TikTok Short Video', 'X / Twitter News', 'LinkedIn Professional'].map(wrapChartLabel),
+                    datasets: [{
+                        label: 'Penetrasi Pasar (%)',
+                        data: [89, 85, 78, 72, 65, 45, 20],
+                        backgroundColor: ['#34D399', '#F43F5E', '#3B82F6', '#D946EF', '#1E293B', '#64748B', '#0284C7'],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    ...baseOptions,
+                    indexAxis: 'y',
+                    scales: {
+                        x: { beginAtZero: true, max: 100, grid: { color: '#334155' }, ticks: { color: '#94A3B8' } },
+                        y: { grid: { display: false }, ticks: { color: '#E2E8F0', font: { weight: 'bold' } } }
+                    },
+                    plugins: { ...baseOptions.plugins, legend: { display: false } }
+                }
+            });
+
+            // 4. Cohort Dominance (Grouped Bar)
+            new Chart(document.getElementById('cohortChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Generasi Z (15-24)', 'Milenial (25-40)', 'Generasi X (41-64)'].map(wrapChartLabel),
+                    datasets: [
+                        { label: 'TikTok', data: [60, 30, 10], backgroundColor: '#1E293B', borderRadius: 4 }, // Dark
+                        { label: 'Instagram', data: [55, 65, 25], backgroundColor: '#D946EF', borderRadius: 4 }, // Fuchsia
+                        { label: 'Facebook', data: [15, 40, 75], backgroundColor: '#3B82F6', borderRadius: 4 }, // Blue
+                        { label: 'YouTube', data: [70, 75, 60], backgroundColor: '#F43F5E', borderRadius: 4 }  // Rose
+                    ]
+                },
+                options: {
+                    ...baseOptions,
+                    scales: {
+                        y: { beginAtZero: true, max: 100, grid: { color: '#334155' }, title: { display: true, text: 'Tingkat Intensitas', color: '#94A3B8' } },
+                        x: { grid: { display: false }, ticks: { color: '#E2E8F0', font: { weight: 'bold' } } }
+                    },
+                    plugins: { ...baseOptions.plugins, legend: { position: 'top', labels: { color: '#E2E8F0' } } }
+                }
+            });
+
+            // 5. Content Affinity (Radar)
+            new Chart(document.getElementById('radarChart').getContext('2d'), {
+                type: 'radar',
+                data: {
+                    labels: ['Komedi Interaktif', 'Misteri / Horor', 'Berita & Isu Terkini', 'Edukasi / Karir', 'Gaming & E-sports', 'Gaya Hidup (Vlog)'].map(wrapChartLabel),
+                    datasets: [{
+                        label: 'Skor Minat Agregat',
+                        data: [90, 85, 60, 55, 70, 80],
+                        backgroundColor: 'rgba(34, 211, 238, 0.2)', // Cyan transparent
+                        borderColor: '#22D3EE',
+                        pointBackgroundColor: '#F472B6', // Pink points
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    ...baseOptions,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#334155' },
+                            grid: { color: '#334155' },
+                            pointLabels: { color: '#E2E8F0', font: { size: 12 } },
+                            suggestedMin: 0,
+                            suggestedMax: 100,
+                            ticks: { display: false } // Hide numbers on web
+                        }
+                    }
+                }
+            });
+
+            // 6. Podcast/Vodcast Trends (Bubble)
+            // X: Growth Rate, Y: Retention/Stickiness, R: Market Size
+            new Chart(document.getElementById('bubbleChart').getContext('2d'), {
+                type: 'bubble',
+                data: {
+                    datasets: [
+                        { label: 'Jurnal Horor / Misteri', data: [{x: 40, y: 90, r: 35}], backgroundColor: 'rgba(244, 114, 182, 0.8)' }, // Pink
+                        { label: 'Bincang Komedi Santai', data: [{x: 60, y: 75, r: 30}], backgroundColor: 'rgba(34, 211, 238, 0.8)' }, // Cyan
+                        { label: 'Inspirasi & Bisnis', data: [{x: 30, y: 60, r: 20}], backgroundColor: 'rgba(52, 211, 153, 0.8)' }   // Emerald
+                    ]
+                },
+                options: {
+                    ...baseOptions,
+                    scales: {
+                        x: { 
+                            title: { display: true, text: 'Estimasi Pertumbuhan Kategori (%)', color: '#94A3B8' }, 
+                            min: 0, max: 100, grid: { color: '#334155' }, ticks: { color: '#94A3B8' }
+                        },
+                        y: { 
+                            title: { display: true, text: 'Tingkat Retensi Penonton (%)', color: '#94A3B8' }, 
+                            min: 0, max: 100, grid: { color: '#334155' }, ticks: { color: '#94A3B8' }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: Pertumbuhan ${context.raw.x}%, Retensi ${context.raw.y}%`;
+                                }
+                            }
+                        },
+                        legend: { labels: { color: '#E2E8F0' } }
+                    }
+                }
+            });
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', initCharts);
+
+    </script>
+</body>
+</html>
