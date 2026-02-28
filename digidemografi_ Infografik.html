@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indonesia Digital Pulse - AI Powered Strategy</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC; 
+            color: #1E293B; 
+        }
+        
+        .text-primary { color: #0F172A; }
+        .text-accent { color: #3B82F6; } 
+        .bg-primary-dark { background-color: #0F172A; } 
+        .bg-card { background-color: #FFFFFF; }
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px; 
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px; 
+            max-height: 450px;
+        }
+
+        @media (max-width: 640px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid #3B82F6;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .ai-glow {
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .flow-arrow::after {
+            content: "↓";
+            font-size: 2rem;
+            color: #94a3b8;
+            display: block;
+            margin: 0.5rem 0;
+            text-align: center;
+        }
+        
+        @media (min-width: 768px) {
+            .flow-arrow::after {
+                content: "→";
+                margin: 0 1rem;
+                display: inline-block;
+                vertical-align: middle;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header Section -->
+    <header class="bg-primary-dark text-white py-12 px-4 shadow-xl">
+        <div class="max-w-6xl mx-auto text-center">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 tracking-tight">INDONESIA <span class="text-blue-400">DIGITAL PULSE</span></h1>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                Integrasi AI: Menganalisis perilaku, preferensi, dan ekosistem digital Indonesia dengan Gemini API ✨.
+            </p>
+            <div class="mt-8 flex flex-wrap justify-center gap-4 text-sm font-semibold">
+                <span class="bg-blue-600 px-4 py-1 rounded-full">Populasi: ~280 Juta</span>
+                <span class="bg-indigo-600 px-4 py-1 rounded-full">Usia Produktif: ~71%</span>
+                <span class="bg-purple-600 px-4 py-1 rounded-full">AI Integrated</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 gap-12">
+
+        <!-- AI STRATEGY HUB (NEW GEMINI SECTION) -->
+        <section class="bg-white p-8 rounded-2xl shadow-xl ai-glow border-t-8 border-blue-500">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="p-3 bg-blue-100 rounded-lg">
+                    <span class="text-2xl">✨</span>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">Laboratorium Strategi AI Gemini</h2>
+                    <p class="text-gray-500 text-sm">Gunakan kecerdasan buatan untuk merancang masa depan bisnis digital Anda.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Campaign Idea Generator -->
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                    <h3 class="font-bold text-gray-700 mb-4 flex items-center gap-2">
+                        ✨ Generator Kampanye Kreatif
+                    </h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 mb-1 uppercase">Target Audiens</label>
+                            <select id="aiCohortInput" class="w-full p-2 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="Gen Z (Usia 15-24)">Gen Z (15-24)</option>
+                                <option value="Milenial (Usia 25-40)">Milenial (25-40)</option>
+                                <option value="Gen X (Usia 41-64)">Gen X (41-64)</option>
+                            </select>
+                        </div>
+                        <button onclick="generateCampaignIdea()" id="campaignBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-lg transition-all flex justify-center items-center gap-2">
+                            <span>✨ Rancang Ide Konten</span>
+                        </button>
+                    </div>
+                    <div id="campaignOutput" class="mt-4 p-4 bg-white rounded-lg border border-slate-200 text-sm hidden min-h-[100px] whitespace-pre-wrap"></div>
+                </div>
+
+                <!-- Podcast Concept Studio -->
+                <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                    <h3 class="font-bold text-gray-700 mb-4 flex items-center gap-2">
+                        ✨ Studio Konsep Podcast AI
+                    </h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 mb-1 uppercase">Pilih Genre</label>
+                            <select id="aiGenreInput" class="w-full p-2 border rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="Horor & Misteri">Horor & Misteri</option>
+                                <option value="Komedi / Obrolan Santai">Komedi Santai</option>
+                                <option value="Bisnis & Pengembangan Diri">Bisnis & Motivasi</option>
+                            </select>
+                        </div>
+                        <button onclick="generatePodcastScript()" id="podcastBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded-lg transition-all flex justify-center items-center gap-2">
+                            <span>✨ Buat Konsep Kreatif</span>
+                        </button>
+                    </div>
+                    <div id="podcastOutput" class="mt-4 p-4 bg-white rounded-lg border border-slate-200 text-sm hidden min-h-[100px] whitespace-pre-wrap"></div>
+                </div>
+            </div>
+            
+            <div id="aiLoading" class="hidden mt-6 flex flex-col items-center">
+                <div class="spinner mb-2"></div>
+                <p class="text-sm italic text-blue-600">Gemini sedang memproses data pasar...</p>
+            </div>
+        </section>
+
+        <!-- SECTION 1: THE DEMOGRAPHIC FOUNDATION -->
+        <section class="grid grid-cols-1 md:grid-cols-12 gap-8">
+            <div class="md:col-span-4 bg-white p-6 rounded-xl shadow-lg border-t-4 border-blue-500">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">1. Bonus Demografi</h2>
+                <p class="text-gray-600 mb-6 text-sm leading-relaxed">
+                    Indonesia saat ini sedang mengalami "Bonus Demografi", di mana penduduk usia produktif jauh melebihi kelompok non-produktif. Tenaga kerja masif ini menjadi mesin penggerak ekonomi digital.
+                </p>
+                
+                <div class="bg-blue-50 rounded-lg p-6 text-center mb-6">
+                    <p class="text-gray-500 font-semibold uppercase text-xs">Estimasi Total Populasi</p>
+                    <p class="text-5xl font-extrabold text-blue-600 mt-2">278.7M</p>
+                    <p class="text-gray-400 text-xs mt-2">Sumber: Data BPS / Bank Dunia</p>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between border-b pb-2">
+                        <span class="font-semibold text-gray-700">Usia Median</span>
+                        <span class="font-bold text-blue-600">29.7 Tahun</span>
+                    </div>
+                    <div class="flex items-center justify-between border-b pb-2">
+                        <span class="font-semibold text-gray-700">Urbanisasi</span>
+                        <span class="font-bold text-blue-600">57.9%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:col-span-4 bg-white p-6 rounded-xl shadow-lg">
+                <h3 class="text-lg font-bold text-gray-700 mb-2 text-center">Struktur Usia</h3>
+                <p class="text-xs text-gray-500 text-center mb-4">Dominasi Usia Produktif (15-64)</p>
+                <div class="chart-container">
+                    <canvas id="ageChart"></canvas>
+                </div>
+            </div>
+
+            <div class="md:col-span-4 bg-white p-6 rounded-xl shadow-lg">
+                <h3 class="text-lg font-bold text-gray-700 mb-2 text-center">Komposisi Gender</h3>
+                <p class="text-xs text-gray-500 text-center mb-4">Pangsa Pasar Seimbang</p>
+                <div class="chart-container">
+                    <canvas id="genderChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: DIGITAL ECOSYSTEM PARETO -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="lg:col-span-2 text-center mb-4">
+                <h2 class="text-3xl font-bold text-gray-800">2. Ekosistem Digital (Pareto)</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto mt-2">
+                    Platform mana yang mendominasi perhatian penduduk usia produktif? Data menunjukkan konsentrasi masif pada beberapa "Super Apps".
+                </p>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-lg lg:col-span-2">
+                <h3 class="text-xl font-bold text-gray-800 mb-2 ml-4">Top Platform Sosial & Digital (%)</h3>
+                <div class="chart-container w-full h-96">
+                    <canvas id="paretoChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: BRAND DOMINANCE BY AGE COHORT -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="md:col-span-3">
+                <h2 class="text-3xl font-bold text-gray-800 mb-2">3. Dominasi Brand Berdasarkan Kohort</h2>
+                <p class="text-gray-600 mb-6">
+                    Setiap kelompok usia memiliki preferensi unik. Kami membagi menjadi tiga kohort utama: Gen Z, Milenial, dan Gen X.
+                </p>
+            </div>
+
+            <div class="md:col-span-3 bg-white p-6 rounded-xl shadow-lg">
+                <div class="p-4 border-b">
+                    <h3 class="text-xl font-bold text-gray-800">Pangsa Preferensi Platform per Kohort</h3>
+                </div>
+                <div class="chart-container h-[400px]">
+                    <canvas id="cohortChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: CONTENT VARIANTS -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">4. Varian Konsumsi Konten</h2>
+                <p class="text-gray-600 mb-6 text-sm">
+                    Analisis preferensi menunjukkan pergeseran minat dari hiburan murni ke utilitas dan edukasi.
+                </p>
+                <ul class="space-y-3 text-sm text-gray-700">
+                    <li class="flex items-start">
+                        <span class="text-xl mr-3">🤣</span>
+                        <div><strong>Komedi & Sketsa:</strong> Bahasa universal, tertinggi di Gen Z.</div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-xl mr-3">👻</span>
+                        <div><strong>Horor & Misteri:</strong> Fenomena unik Indonesia dengan engagement tinggi.</div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-xl mr-3">🎓</span>
+                        <div><strong>Edu/Self-Improvement:</strong> Tren karier di kalangan Milenial.</div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h3 class="text-lg font-bold text-center text-gray-700 mb-4">Kategori Minat (Skala 0-100)</h3>
+                <div class="chart-container">
+                    <canvas id="contentRadarChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: PODCAST & VODCAST TRENDS -->
+        <section class="grid grid-cols-1 md:grid-cols-12 gap-8 mb-12">
+            <div class="md:col-span-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">5. Kebangkitan Podcast & Vodcast</h2>
+                <p class="text-gray-600">
+                    Audio dan video podcast adalah "frontir" baru bagi usia produktif untuk melakukan multitasking.
+                </p>
+            </div>
+
+            <div class="md:col-span-8 bg-white p-6 rounded-xl shadow-lg">
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Popularitas Genre vs. Stickiness</h3>
+                <div class="chart-container h-[400px]">
+                    <canvas id="podcastChart"></canvas>
+                </div>
+            </div>
+
+            <div class="md:col-span-4 space-y-4">
+                <div class="bg-indigo-900 text-white p-6 rounded-xl shadow-md">
+                    <h4 class="font-bold text-lg mb-2">Format Favorit: Vodcast</h4>
+                    <p class="text-sm opacity-90">
+                        YouTube Vodcast mendominasi di segmen produktif karena audiens Indonesia lebih suka "melihat orang mengobrol".
+                    </p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+                    <h4 class="font-bold text-gray-800 mb-3">Top 3 Tema Podcast</h4>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between text-xs font-semibold mb-1">
+                                <span>Horor (Misteri Lokal)</span>
+                                <span>35%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-red-500 h-2 rounded-full" style="width: 35%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs font-semibold mb-1">
+                                <span>Komedi / Casual Chat</span>
+                                <span>30%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-yellow-500 h-2 rounded-full" style="width: 30%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs font-semibold mb-1">
+                                <span>Bisnis & Motivasi</span>
+                                <span>20%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-blue-500 h-2 rounded-full" style="width: 20%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-gray-400 py-8 text-center rounded-lg">
+            <p class="mb-2"><strong>Indonesia Digital Pulse Infographic</strong></p>
+            <p class="text-sm">Data Analysis & Visualization • Powered by ✨ Gemini API • 2026</p>
+        </footer>
+
+    </main>
+
+    <!-- GEMINI API INTEGRATION -->
+    <script>
+        const apiKey = ""; // API Key disediakan saat runtime
+
+        /**
+         * Fungsi pemanggil Gemini API dengan Exponential Backoff
+         */
+        async function fetchGemini(prompt, systemInstruction = "") {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                systemInstruction: systemInstruction ? { parts: [{ text: systemInstruction }] } : undefined
+            };
+
+            let delay = 1000;
+            for (let i = 0; i < 5; i++) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    const result = await response.json();
+                    return result.candidates?.[0]?.content?.parts?.[0]?.text;
+                } catch (error) {
+                    if (i === 4) throw error;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    delay *= 2;
+                }
+            }
+        }
+
+        /**
+         * Fitur: ✨ Generator Kampanye Kreatif
+         */
+        async function generateCampaignIdea() {
+            const cohort = document.getElementById('aiCohortInput').value;
+            const output = document.getElementById('campaignOutput');
+            const loading = document.getElementById('aiLoading');
+            
+            output.classList.add('hidden');
+            loading.classList.remove('hidden');
+
+            const systemPrompt = "Anda adalah pakar strategi pemasaran digital di Indonesia. Berikan ide kampanye yang ringkas, praktis, dan kreatif.";
+            const userPrompt = `Berdasarkan data demografi Indonesia, berikan 1 ide kampanye media sosial yang sangat efektif untuk kelompok ${cohort}. Sertakan tema utama, platform pilihan (pilih antara TikTok, IG, atau WA), dan 1 alasan mengapa ini cocok untuk mereka.`;
+
+            try {
+                const result = await fetchGemini(userPrompt, systemPrompt);
+                output.textContent = result;
+                output.classList.remove('hidden');
+            } catch (err) {
+                output.textContent = "Gagal memproses permintaan AI. Silakan coba lagi.";
+                output.classList.remove('hidden');
+            } finally {
+                loading.classList.add('hidden');
+            }
+        }
+
+        /**
+         * Fitur: ✨ Studio Konsep Podcast AI
+         */
+        async function generatePodcastScript() {
+            const genre = document.getElementById('aiGenreInput').value;
+            const output = document.getElementById('podcastOutput');
+            const loading = document.getElementById('aiLoading');
+
+            output.classList.add('hidden');
+            loading.classList.remove('hidden');
+
+            const systemPrompt = "Anda adalah produser podcast kreatif di Indonesia yang ahli dalam membuat konten viral.";
+            const userPrompt = `Buatkan konsep judul unik dan draf narasi pembuka (intro) singkat untuk podcast genre ${genre} yang menargetkan audiens usia produktif di Indonesia. Buatlah terdengar menarik dan akrab.`;
+
+            try {
+                const result = await fetchGemini(userPrompt, systemPrompt);
+                output.textContent = result;
+                output.classList.remove('hidden');
+            } catch (err) {
+                output.textContent = "Gagal memproses permintaan AI. Silakan coba lagi.";
+                output.classList.remove('hidden');
+            } finally {
+                loading.classList.add('hidden');
+            }
+        }
+    </script>
+
+    <!-- CHART.JS LOGIC -->
+    <script>
+        function wrapLabel(str) {
+            if (str.length <= 16) return str;
+            const words = str.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+            for (let i = 1; i < words.length; i++) {
+                if ((currentLine + " " + words[i]).length < 16) {
+                    currentLine += " " + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        const commonTooltip = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    return Array.isArray(label) ? label.join(' ') : label;
+                }
+            }
+        };
+
+        Chart.defaults.font.family = "'Inter', sans-serif";
+        Chart.defaults.color = '#64748b';
+        Chart.defaults.maintainAspectRatio = false;
+
+        window.onload = function() {
+            // Age Chart
+            new Chart(document.getElementById('ageChart').getContext('2d'), {
+                type: 'pie',
+                data: {
+                    labels: ['Produktif (15-64)', 'Muda (0-14)', 'Lansia (65+)'],
+                    datasets: [{
+                        data: [70.7, 23.5, 5.8],
+                        backgroundColor: ['#2563EB', '#93C5FD', '#E2E8F0']
+                    }]
+                },
+                options: { plugins: { legend: { position: 'bottom' }, tooltip: commonTooltip } }
+            });
+
+            // Gender Chart
+            new Chart(document.getElementById('genderChart').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Laki-laki', 'Perempuan'],
+                    datasets: [{
+                        data: [50.5, 49.5],
+                        backgroundColor: ['#0EA5E9', '#EC4899']
+                    }]
+                },
+                options: { cutout: '60%', plugins: { legend: { position: 'bottom' }, tooltip: commonTooltip } }
+            });
+
+            // Pareto Chart
+            new Chart(document.getElementById('paretoChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['WhatsApp Messenger', 'YouTube Media', 'Facebook Social', 'Instagram Lifestyle', 'TikTok viral video', 'X / Twitter News'].map(wrapLabel),
+                    datasets: [{
+                        label: 'Penetrasi (%)',
+                        data: [89, 85, 78, 72, 65, 45],
+                        backgroundColor: ['#22c55e', '#ef4444', '#3b82f6', '#d946ef', '#000000', '#1e293b'],
+                        borderRadius: 5
+                    }]
+                },
+                options: { indexAxis: 'y', scales: { x: { beginAtZero: true, max: 100 } }, plugins: { legend: { display: false }, tooltip: commonTooltip } }
+            });
+
+            // Cohort Chart
+            new Chart(document.getElementById('cohortChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Gen Z (Digital Natives)', 'Milenial (Professionals)', 'Gen X (Traditionalist)'].map(wrapLabel),
+                    datasets: [
+                        { label: 'TikTok', data: [60, 30, 10], backgroundColor: '#111827' },
+                        { label: 'Instagram', data: [55, 65, 25], backgroundColor: '#d946ef' },
+                        { label: 'Facebook', data: [15, 40, 75], backgroundColor: '#3b82f6' },
+                        { label: 'YouTube', data: [70, 75, 60], backgroundColor: '#ef4444' }
+                    ]
+                },
+                options: { scales: { y: { beginAtZero: true, max: 100 } }, plugins: { tooltip: commonTooltip } }
+            });
+
+            // Radar Chart
+            new Chart(document.getElementById('contentRadarChart').getContext('2d'), {
+                type: 'radar',
+                data: {
+                    labels: ['Komedi Humor', 'Horor Misteri', 'Berita Politik', 'Edukasi Bisnis', 'Gaming Esports', 'Lifestyle Daily'].map(wrapLabel),
+                    datasets: [{
+                        label: 'Minat Rata-rata',
+                        data: [90, 85, 60, 55, 70, 80],
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        borderColor: 'rgb(59, 130, 246)'
+                    }]
+                },
+                options: { scales: { r: { suggestedMin: 0, suggestedMax: 100 } }, plugins: { tooltip: commonTooltip } }
+            });
+
+            // Bubble Chart
+            new Chart(document.getElementById('podcastChart').getContext('2d'), {
+                type: 'bubble',
+                data: {
+                    datasets: [
+                        { label: 'Horor', data: [{x: 40, y: 90, r: 35}], backgroundColor: 'rgba(239, 68, 68, 0.7)' },
+                        { label: 'Komedi', data: [{x: 60, y: 75, r: 30}], backgroundColor: 'rgba(234, 179, 8, 0.7)' },
+                        { label: 'Bisnis', data: [{x: 30, y: 60, r: 20}], backgroundColor: 'rgba(59, 130, 246, 0.7)' }
+                    ]
+                },
+                options: {
+                    scales: { 
+                        x: { title: { display: true, text: 'Pertumbuhan (%)' }, min: 0, max: 100 },
+                        y: { title: { display: true, text: 'Retensi (%)' }, min: 0, max: 100 }
+                    }
+                }
+            });
+        };
+    </script>
+</body>
+</html>
